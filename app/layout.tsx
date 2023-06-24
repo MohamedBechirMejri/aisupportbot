@@ -16,11 +16,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className="h-[100svh] overflow-hidden bg-white bg-opacity-50 pt-8 backdrop-blur"
-        style={nunito.style}
-      >
-        {children}
+      <body>
+        <div
+          className="h-[100svh] overflow-hidden bg-white bg-opacity-50 pt-8 backdrop-blur"
+          style={nunito.style}
+        >
+          {children}
+        </div>
       </body>
     </html>
   );
