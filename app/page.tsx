@@ -6,9 +6,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
-
   const chatRef = useRef<HTMLDivElement>(null);
+
+  const { messages, input, handleInputChange, handleSubmit, setMessages } =
+    useChat();
+
+  const handleClear = () => {
+    setMessages([]);
+  };
 
   // scroll to bottom on new message
   useEffect(() => {
@@ -103,7 +108,7 @@ export default function Chat() {
             }}
             className="group flex h-12 flex-nowrap items-center justify-start gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-blue-700 p-2 px-3 font-bold text-white"
             type="button"
-            // onClick={handleClear}
+            onClick={handleClear}
           >
             <Image
               src={"/broom.svg"}
