@@ -11,9 +11,7 @@ export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
     useChat();
 
-  const handleClear = () => {
-    setMessages([]);
-  };
+  const handleClear = () => setMessages([]);
 
   // scroll to bottom on new message
   useEffect(() => {
