@@ -3,12 +3,18 @@
 import Image from "next/image";
 import { useChat } from "ai/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
 
   const chatRef = useRef<HTMLDivElement>(null);
+
+  // scroll to bottom on new message
+  useEffect(() => {
+    if (chatRef.current)
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [messages]);
 
   return (
     <main className="mx-auto grid h-full w-[min(64rem,100svw)] max-w-5xl grid-rows-[1fr,auto]">
