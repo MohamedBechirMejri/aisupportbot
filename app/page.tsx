@@ -132,6 +132,14 @@ export default function Chat() {
               name="prompt"
               placeholder="Ask me Anything..."
               value={input}
+              // submit on enter
+              onKeyDown={e => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  // @ts-ignore
+                  handleSubmit(e);
+                }
+              }}
               onChange={handleInputChange}
               className="flex w-full resize-none items-center justify-center rounded-[1.5rem] bg-white bg-opacity-60 p-3 px-12 outline-none elevation-1 placeholder:text-[#898989]"
               maxLength={200}
