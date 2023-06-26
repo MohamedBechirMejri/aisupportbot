@@ -9,7 +9,21 @@ export default function Chat() {
   const chatRef = useRef<HTMLDivElement>(null);
 
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
-    useChat();
+    useChat({
+      initialMessages: [
+        {
+          id: "1",
+          role: "system",
+          content: "The chatbot is a tech support bot.",
+        },
+        {
+          id: "2",
+          role: "system",
+          content:
+            "it should always reply using the data it gets from the API. or if it doesn't have the data, it should ask the user for it.",
+        },
+      ],
+    });
 
   const handleClear = () => setMessages([]);
 
