@@ -1,8 +1,4 @@
-type FunctionNames =
-  | "get_top_stories"
-  | "get_story"
-  | "get_story_with_comments"
-  | "summarize_top_story";
+type FunctionNames = "search_knowledge_base";
 
 export const functions: {
   name: FunctionNames;
@@ -10,117 +6,45 @@ export const functions: {
   parameters: object;
 }[] = [
   {
-    name: "get_top_stories",
-    description:
-      "Get the top stories from Hacker News. Also returns the Hacker News URL to each story.",
+    name: "search_knowledge_base",
+    description: "Search the knowledge base for an answer to a question.",
     parameters: {
       type: "object",
       properties: {
-        limit: {
-          type: "number",
-          description: "The number of stories to return. Defaults to 10.",
+        question: {
+          type: "string",
+          description: "search query to find an answer to the question",
         },
       },
-      required: [],
-    },
-  },
-  {
-    name: "get_story",
-    description:
-      "Get a story from Hacker News. Also returns the Hacker News URL to the story.",
-    parameters: {
-      type: "object",
-      properties: {
-        id: {
-          type: "number",
-          description: "The ID of the story",
-        },
-      },
-      required: ["id"],
-    },
-  },
-  {
-    name: "get_story_with_comments",
-    description:
-      "Get a story from Hacker News with comments.  Also returns the Hacker News URL to the story and each comment.",
-    parameters: {
-      type: "object",
-      properties: {
-        id: {
-          type: "number",
-          description: "The ID of the story",
-        },
-      },
-      required: ["id"],
-    },
-  },
-  {
-    name: "summarize_top_story",
-    description:
-      "Summarize the top story from Hacker News, including both the story and its comments. Also returns the Hacker News URL to the story and each comment.",
-    parameters: {
-      type: "object",
-      properties: {},
-      required: [],
+      required: ["question"],
     },
   },
 ];
 
-async function get_top_stories(limit: number = 10) {
-  const response = await fetch(
-    "https://hacker-news.firebaseio.com/v0/topstories.json"
-  );
-  const ids = await response.json();
-  const stories = await Promise.all(
-    ids.slice(0, limit).map((id: number) => get_story(id))
-  );
-  return stories;
-}
+async function search_knowledge_base(question: string) {
+  console.log("searching knowledge base for", question);
 
-async function get_story(id: number) {
-  const response = await fetch(
-    `https://hacker-news.firebaseio.com/v0/item/${id}.json`
-  );
-  const data = await response.json();
-  return {
-    ...data,
-    hnUrl: `https://news.ycombinator.com/item?id=${id}`,
-  };
-}
+  const api =
+    "https://testcompany-j.helpjuice.com/api/v3/search?api_key=85a593f3b7c3844f847b86e60155433a&query=";
 
-async function get_story_with_comments(id: number) {
-  const response = await fetch(
-    `https://hacker-news.firebaseio.com/v0/item/${id}.json`
-  );
-  const data = await response.json();
-  const comments = await Promise.all(
-    data.kids.slice(0, 10).map((id: number) => get_story(id))
-  );
-  return {
-    ...data,
-    hnUrl: `https://news.ycombinator.com/item?id=${id}`,
-    comments: comments.map((comment: any) => ({
-      ...comment,
-      hnUrl: `https://news.ycombinator.com/item?id=${comment.id}`,
-    })),
-  };
-}
+  const response = await fetch(api + question);
+  const json = await response.json();
 
-async function summarize_top_story() {
-  const topStory = await get_top_stories(1);
-  return await get_story_with_comments(topStory[0].id);
+  const answers = json.searches.map((search: any) => ({
+    question: search.name,
+    answer: search.long_answer_sample,
+    url: search.url,
+  }));
+
+  console.log("answers", answers);
+
+  return answers;
 }
 
 export async function runFunction(name: string, args: any) {
   switch (name) {
-    case "get_top_stories":
-      return await get_top_stories();
-    case "get_story":
-      return await get_story(args["id"]);
-    case "get_story_with_comments":
-      return await get_story_with_comments(args["id"]);
-    case "summarize_top_story":
-      return await summarize_top_story();
+    case "search_knowledge_base":
+      return await search_knowledge_base(args["question"]);
     default:
       return null;
   }
