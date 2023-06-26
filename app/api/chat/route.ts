@@ -22,10 +22,8 @@ export async function POST(req: Request) {
       role: message.role,
     })),
     functions,
-    // function_call: "auto",
-    function_call: {
-      name: "search_knowledge_base",
-    },
+    function_call: "auto",
+    // function_call: { name: "search_knowledge_base" },
   });
   const initialResponseJson = await initialResponse.json();
   const initialResponseMessage = initialResponseJson?.choices?.[0]?.message;

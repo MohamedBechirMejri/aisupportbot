@@ -20,7 +20,7 @@ export default function Chat() {
           id: "2",
           role: "system",
           content:
-            "it should always reply using the data it gets from the API. or if it doesn't have the data, it should ask the user for it.",
+            "it should always answer questions using the data it gets from the API. or if it doesn't have the data, it should ask the user for it.",
         },
       ],
     });
