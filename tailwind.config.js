@@ -17,5 +17,6 @@ module.exports = {
   plugins: [
     require("tailwindcss-elevation")(["responsive"]),
     require("tailwindcss-no-scrollbar"),
+    require("@tailwindcss/typography"),
   ],
 };

@@ -14,9 +14,12 @@
     "next": "13.4.7",
     "openai-edge": "^1.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-markdown": "^8.0.7",
+    "remark-gfm": "^3.0.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "@types/node": "^20.3.1",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",

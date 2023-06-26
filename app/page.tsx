@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useChat } from "ai/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Chat() {
   const chatRef = useRef<HTMLDivElement>(null);
@@ -12,18 +14,22 @@ export default function Chat() {
     useChat({
       initialMessages: [
         {
-          id: "1",
+          id: "1;lk;lkm;lkm;klm",
           role: "system",
           content: "The chatbot is a tech support bot.",
         },
         {
-          id: "2",
+          id: "2;okm;oklm;lokm;olkm;km",
           role: "system",
           content:
             "it should always answer questions using the data it gets from the API. or if it doesn't have the data, it should ask the user for it.",
         },
       ],
     });
+
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
 
   const handleClear = () => setMessages([]);
 
@@ -60,7 +66,7 @@ export default function Chat() {
               message.role === "system" ? null : (
                 <div
                   key={`message#${i}`}
-                  className="flex h-max w-full whitespace-pre-wrap text-left"
+                  className="flex h-max w-full text-left"
                   style={{
                     justifyContent:
                       message.role === "user" ? "flex-end" : "flex-start",
@@ -70,25 +76,24 @@ export default function Chat() {
                     <motion.p
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: [0.9, 1.1, 1] }}
-                      transition={{
-                        delay: 0.2,
-                        ease: "easeIn",
-                      }}
+                      transition={{ delay: 0.2, ease: "easeIn" }}
                       className="h-full max-w-[75%] rounded-2xl bg-gradient-to-r from-blue-500 to-blue-700 p-2 px-4 text-white elevation-1"
                     >
-                      {message.content}
+                      <ReactMarkdown children={message.content} />
                     </motion.p>
                   ) : (
                     <motion.p
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: [0.9, 1.1, 1] }}
-                      transition={{
-                        delay: 0.2,
-                        ease: "easeIn",
-                      }}
+                      transition={{ delay: 0.2, ease: "easeIn" }}
                       className="h-full max-w-[75%] rounded-2xl bg-white bg-opacity-60 p-2 px-4 elevation-1"
                     >
-                      {message.content}
+                      {/* <ReactMarkdown>{message.content}</ReactMarkdown> */}
+                      <ReactMarkdown
+                        children={message.content}
+                        remarkPlugins={[remarkGfm]}
+                        className="markdown prose"
+                      />
                     </motion.p>
                   )}
                 </div>
