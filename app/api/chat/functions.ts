@@ -23,6 +23,8 @@ export const functions: {
 ];
 
 async function search_knowledge_base(query: string) {
+  console.log("searching for: ", query); // TODO: connect this with websocket to send to client
+
   const url = "https://testcompany-j.helpjuice.com";
   const api_key = "85a593f3b7c3844f847b86e60155433a";
   const searchApi = `${url}/api/v3/search?api_key=${api_key}&query=${query}`;
