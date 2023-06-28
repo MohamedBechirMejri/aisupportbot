@@ -7,36 +7,47 @@ export const functions: {
 }[] = [
   {
     name: "search_knowledge_base",
-    description: "Search the knowledge base for an answer to a question.",
+    description:
+      "Search the knowledge base for an answer to a question using keywords from the question as the query",
     parameters: {
       type: "object",
       properties: {
-        question: {
+        query: {
           type: "string",
           description: "search query to find an answer to the question",
         },
       },
-      required: ["question"],
+      required: ["query"],
     },
   },
 ];
 
-async function search_knowledge_base(question: string) {
-  console.log("searching knowledge base for", question);
+async function search_knowledge_base(query: string) {
+  const url = "https://testcompany-j.helpjuice.com";
+  const api_key = "85a593f3b7c3844f847b86e60155433a";
+  const searchApi = `${url}/api/v3/search?api_key=${api_key}&query=${query}`;
 
-  const api =
-    "https://testcompany-j.helpjuice.com/api/v3/search?api_key=85a593f3b7c3844f847b86e60155433a&query=";
+  const articleApi = (id: string) =>
+    `${url}/api/v3/articles/${id}?api_key=${api_key}`;
 
-  const response = await fetch(api + question);
+  const response = await fetch(searchApi);
   const json = await response.json();
 
-  const answers = json.searches.map((search: any) => ({
-    question: search.name,
-    answer: search.long_answer_sample,
-    url: search.url,
-  }));
-
-  console.log("answers", answers);
+  const answers = await Promise.all(
+    json.searches
+      .filter((_: any, i: number) => i < 3)
+      .map(async (search: any) => {
+        const response = await fetch(articleApi(search.id));
+        const data = await response.json();
+        return { ...data };
+      })
+  ).then(results =>
+    results.map(data => ({
+      name: data.article.name,
+      body: data.article.answer.body_txt,
+      url: data.article.url,
+    }))
+  );
 
   return answers;
 }
@@ -44,7 +55,7 @@ async function search_knowledge_base(question: string) {
 export async function runFunction(name: string, args: any) {
   switch (name) {
     case "search_knowledge_base":
-      return await search_knowledge_base(args["question"]);
+      return await search_knowledge_base(args["query"]);
     default:
       return null;
   }
