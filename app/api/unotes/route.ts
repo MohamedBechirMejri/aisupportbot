@@ -12,7 +12,7 @@ const openai = new OpenAI({
 
 export async function POST(req: Request, res: NextApiResponse) {
   // Extract the `messages` from the body of the request
-  // const { info } = await req.json();
+  const { info } = await req.json();
 
   const messages: any = [
     ...systemMessages,
@@ -61,35 +61,3 @@ const systemMessages = [
       "return the data in an object and if you can't find the data return null for that field",
   },
 ];
-
-const info = `CST8116 Intro to Computer Programming Assignment 4 2020
-
-by bhunyl » Mon Mar 08, 2021 2:43 pm
-
-Course-Code: CST8116
-Name: Computer Programming
-Year Taken: September 2020
-Semester: First Semester
-Professor: David Houtman
-Assessment: Assignment #04
-
-This assignment is about the Git version control system. I.E. using commit within an Eclipse Environment. The assignment is straightforward if you follow the instructions properly.
-
-Things to note:
-Make sure that your second screenshot has all 4 commits visible within the screenshot.
-
-Java code solution to fix the bug is:
-
-/*
-* Assessment: Assignment #04
-* Student Name:xxxxxxxx
-* Section: 363
-* Due Date: 6th December 2020
-* Description: Simple program using array and for loop.
-* Lab Professor Name: David Houtman
-* Author:
-*/
-public class Assignment04 {
-
-public static void main(String[] args) {
-`;
