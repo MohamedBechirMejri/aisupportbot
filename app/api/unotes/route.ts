@@ -28,9 +28,18 @@ export async function POST(req: Request, res: NextApiResponse) {
     messages,
   });
 
-  return NextResponse.json({
-    data: JSON.parse(response.choices[0].message.content!),
-  });
+  return NextResponse.json(
+    {
+      data: JSON.parse(response.choices[0].message.content!),
+    },
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    }
+  );
 }
 
 const systemMessages = [
