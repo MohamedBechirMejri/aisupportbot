@@ -28,20 +28,9 @@ export async function POST(req: Request, res: NextApiResponse) {
     messages,
   });
 
-  return NextResponse.json(
-    {
-      data: JSON.parse(response.choices[0].message.content!),
-    },
-    // allow CORS requests from any origin
-    {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "Content-Type, X-Requested-With, Access-Control-Allow-Headers",
-      },
-    }
-  );
+  return NextResponse.json({
+    data: JSON.parse(response.choices[0].message.content!),
+  });
 }
 
 const systemMessages = [
