@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "ai": "2.2.14",
-    "cors": "^2.8.5",
     "framer-motion": "^10.16.4",
     "next": "13.5.3",
     "openai": "^4.11.0",
