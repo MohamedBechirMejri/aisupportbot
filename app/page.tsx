@@ -91,6 +91,7 @@ export default function Chat() {
                       transition={{ delay: 0.2, ease: "easeIn" }}
                       className="h-full max-w-[75%] rounded-2xl bg-gradient-to-r from-blue-500 to-blue-700 p-2 px-4 text-white elevation-1"
                     >
+                      {/* @ts-ignore */}
                       <ReactMarkdown>{message.content}</ReactMarkdown>
                     </motion.p>
                   ) : (
@@ -100,6 +101,7 @@ export default function Chat() {
                       transition={{ delay: 0.2, ease: "easeIn" }}
                       className="h-full max-w-[75%] rounded-2xl bg-white bg-opacity-60 p-2 px-4 elevation-1"
                     >
+                      {/* @ts-ignore */}
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         className="markdown prose"
