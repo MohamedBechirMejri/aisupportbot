@@ -32,11 +32,10 @@ export async function POST(req: Request, res: NextApiResponse) {
     {
       data: JSON.parse(response.choices[0].message.content!),
     },
+    // allow CORS requests from any origin
     {
       headers: {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
       },
     }
   );
